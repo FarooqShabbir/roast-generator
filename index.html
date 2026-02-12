@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Roast Generator 🔥</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="stars-bg"></div>
+    
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">✨ The Roast Generator ✨</h1>
+                <p class="subtitle">Tell me about yourself... if you dare 😏</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="card input-card">
+                <h2>Your Details</h2>
+                <form id="roastForm">
+                    <div class="input-group">
+                        <label for="name">Your name:</label>
+                        <input type="text" id="name" placeholder="Enter your name..." required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="hobby">Your favorite hobby:</label>
+                        <input type="text" id="hobby" placeholder="e.g., scrolling TikTok, sleeping...">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="talent">Your special talent:</label>
+                        <input type="text" id="talent" placeholder="e.g., procrastinating, complaining...">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="age">How old are you?</label>
+                        <input type="number" id="age" placeholder="Enter your age..." min="1" max="150">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">🔥 Get Roasted 🔥</button>
+                </form>
+            </div>
+
+            <div class="card roast-card hidden" id="roastCard">
+                <h2>Here's Your Roast:</h2>
+                <div class="roast-content" id="roastContent"></div>
+                <button class="btn btn-secondary" id="anotherBtn">I Can Handle Another One 💪</button>
+            </div>
+
+            <div class="floating-emoji" id="floatingEmoji">🔥</div>
+        </main>
+
+        <footer class="footer">
+            <p>Made with ❤️ and a lot of sass | No feelings were permanently hurt</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
