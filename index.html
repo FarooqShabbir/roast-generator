@@ -19,26 +19,66 @@
 
         <main class="main-content">
             <div class="card input-card">
+                <div class="language-selector">
+                    <label for="language">Choose Language:</label>
+                    <select id="language">
+                        <option value="english">English 🇬🇧</option>
+                        <option value="urdu">اردو 🇵🇰</option>
+                    </select>
+                </div>
                 <h2>Your Details</h2>
                 <form id="roastForm">
                     <div class="input-group">
                         <label for="name">Your name:</label>
-                        <input type="text" id="name" placeholder="Enter your name..." required>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="hobby">Your favorite hobby:</label>
-                        <input type="text" id="hobby" placeholder="e.g., scrolling TikTok, sleeping...">
-                    </div>
-
-                    <div class="input-group">
-                        <label for="talent">Your special talent:</label>
-                        <input type="text" id="talent" placeholder="e.g., procrastinating, complaining...">
+                        <input type="text" id="name" placeholder="Enter your name...">
                     </div>
 
                     <div class="input-group">
                         <label for="age">How old are you?</label>
                         <input type="number" id="age" placeholder="Enter your age..." min="1" max="150">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="hobby">Your favorite hobby:</label>
+                        <select id="hobby" required>
+                            <option value="">-- Select a hobby --</option>
+                            <option value="sleep">Sleeping</option>
+                            <option value="social_media">Social Media (TikTok, Instagram, etc.)</option>
+                            <option value="gaming">Gaming</option>
+                            <option value="sports">Sports</option>
+                            <option value="reading">Reading</option>
+                            <option value="music">Music</option>
+                            <option value="cooking">Cooking</option>
+                            <option value="gym">Gym/Fitness Training</option>
+                            <option value="travel">Travel</option>
+                            <option value="art">Art/Drawing</option>
+                            <option value="writing">Writing</option>
+                            <option value="movie">Watching Movies</option>
+                            <option value="partying">Partying</option>
+                            <option value="shopping">Shopping</option>
+                            <option value="fitness">Fitness</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="talent">Your special talent:</label>
+                        <select id="talent" required>
+                            <option value="">-- Select a talent --</option>
+                            <option value="procrastinate">Procrastinating</option>
+                            <option value="complain">Complaining</option>
+                            <option value="nothing">No Talent</option>
+                            <option value="lying">Lying</option>
+                            <option value="overthinking">Overthinking</option>
+                            <option value="making_excuses">Making Excuses</option>
+                            <option value="being_late">Being Late</option>
+                            <option value="being_toxic">Being Toxic</option>
+                            <option value="losing_friends">Losing Friends</option>
+                            <option value="failing">Failing</option>
+                            <option value="being_annoying">Being Annoying</option>
+                            <option value="self_sabotage">Self-Sabotage</option>
+                            <option value="giving_up">Giving Up</option>
+                            <option value="gaslighting">Gaslighting</option>
+                        </select>
                     </div>
 
                     <button type="submit" class="btn btn-primary">🔥 Get Roasted 🔥</button>
@@ -48,8 +88,59 @@
             <div class="card roast-card hidden" id="roastCard">
                 <h2>Here's Your Roast:</h2>
                 <div class="roast-content" id="roastContent"></div>
-                <button class="btn btn-secondary" id="anotherBtn">I Can Handle Another One 💪</button>
+                <div class="button-group">
+                    <button class="btn btn-secondary" id="anotherBtn">I Can Handle Another One 💪</button>
+                    <button class="btn btn-success" id="reviewBtn">Wanna Finish The Roast</button>
+                </div>
             </div>
+
+            <!-- Review Modal -->
+            <div id="reviewModal" class="modal hidden">
+                <div class="modal-content">
+                    <span class="close" id="closeReview">&times;</span>
+                    <h2>What Do You Think? 🤔</h2>
+                    <form id="reviewForm">
+                        <div class="input-group">
+                            <label for="reviewerName">Your Name:</label>
+                            <input type="text" id="reviewerName" placeholder="Enter your name (optional)">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="reviewRating">How Brutal Was It? (1-10)</label>
+                            <div class="rating-scale">
+                                <input type="range" id="reviewRating" min="1" max="10" value="5">
+                                <span id="ratingValue">5</span>/10
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="reviewAccuracy">How Accurate Was It? (1-10)</label>
+                            <div class="rating-scale">
+                                <input type="range" id="reviewAccuracy" min="1" max="10" value="5">
+                                <span id="accuracyValue">5</span>/10
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="reviewFunny">How Funny Was It? (1-10)</label>
+                            <div class="rating-scale">
+                                <input type="range" id="reviewFunny" min="1" max="10" value="5">
+                                <span id="funnyValue">5</span>/10
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="reviewComment">Your Comment (Optional):</label>
+                            <textarea id="reviewComment" placeholder="Tell us what you think..." rows="4"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                        <p class="review-note">Thank you for your feedback! We appreciate it.</p>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Analytics Dashboard -->
 
             <div class="floating-emoji" id="floatingEmoji">🔥</div>
         </main>

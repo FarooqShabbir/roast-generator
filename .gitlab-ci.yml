@@ -7,63 +7,35 @@ variables:
   DOCKER_IMAGE_NAME: "$DOCKER_HUB_USERNAME/roast-generator"
   DOCKER_IMAGE_TAG: "$CI_COMMIT_SHA"
 
-# Build Docker image
 build:docker:
   stage: build
   image: docker:latest
   services:
     - docker:dind
   script:
-    # Build the Docker image
     - docker build -t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
     - docker build -t $DOCKER_IMAGE_NAME:latest .
-    - echo "✅ Docker image built successfully"
+    - echo "Docker image built successfully"
   only:
     - main
     - develop
   tags:
     - docker
 
-# Push to Docker Hub
 push:docker:
   stage: push
   image: docker:latest
   services:
     - docker:dind
   before_script:
-    # Login to Docker Hub
     - echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
   script:
-    # Build and push with commit SHA tag
     - docker build -t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
     - docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
-    
-    # Also push as latest
     - docker build -t $DOCKER_IMAGE_NAME:latest .
     - docker push $DOCKER_IMAGE_NAME:latest
-    
-    - echo "✅ Image pushed to Docker Hub: $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG"
+    - echo "Image pushed to Docker Hub: $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG"
   only:
     - main
   tags:
     - docker
-
-# Optional: Deploy stage (if you have a server)
-deploy:
-  stage: deploy
-  image: alpine:latest
-  before_script:
-    - apk add --no-cache openssh-client
-    - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
-    - chmod 600 ~/.ssh/id_rsa
-    - ssh-keyscan -H $DEPLOY_SERVER >> ~/.ssh/known_hosts
-  script:
-    # SSH into your server and pull the latest image
-    - ssh -i ~/.ssh/id_rsa $DEPLOY_USER@$DEPLOY_SERVER "cd /opt/roast-generator && docker-compose pull && docker-compose up -d"
-    - echo "✅ Deployment complete"
-  only:
-    - main
-  when: manual
-  tags:
-    - deployment
