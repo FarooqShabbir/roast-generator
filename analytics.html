@@ -325,15 +325,21 @@
     </div>
 
     <script>
-        // Get reviews from localStorage
-        let allReviews = JSON.parse(localStorage.getItem('roastReviews')) || [];
-        let filteredReviews = allReviews;
+        // Get reviews from Firebase
+        let allReviews = [];
+        let filteredReviews = [];
 
-        // Load analytics on page load
-        function loadAnalytics() {
-            displayAnalytics(allReviews);
-            displayReviews(allReviews);
-        }
+        // Load reviews from Firebase in real-time
+        db.collection('reviews').onSnapshot(snapshot => {
+            allReviews = [];
+            snapshot.forEach(doc => {
+                if (doc.data().reviews) {
+                    allReviews = doc.data().reviews;
+                    displayAnalytics(allReviews);
+                    displayReviews(allReviews);
+                }
+            });
+        });
 
         function displayAnalytics(reviews) {
             if (reviews.length === 0) {
@@ -415,15 +421,28 @@
             displayReviews(allReviews);
         }
 
-        // Load analytics when page loads
-        loadAnalytics();
+        // Load analytics when page loads - Firebase will auto-update via onSnapshot
+        
+        // Refresh NOT needed - Firebase onSnapshot handles real-time updates
+    </script>
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
 
-        // Refresh analytics every 10 seconds
-        setInterval(() => {
-            allReviews = JSON.parse(localStorage.getItem('roastReviews')) || [];
-            displayAnalytics(filteredReviews.length > 0 ? filteredReviews : allReviews);
-            displayReviews(filteredReviews.length > 0 ? filteredReviews : allReviews);
-        }, 10000);
+    <!-- Firebase Config -->
+    <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyAWX_aGerrhCditAkWA6KxYmD4bjJXkoZ4",
+        authDomain: "roast-generator-11326.firebaseapp.com",
+        projectId: "roast-generator-11326",
+        storageBucket: "roast-generator-11326.firebasestorage.app",
+        messagingSenderId: "127766094574",
+        appId: "1:127766094574:web:0c5bb4f7bc23bfb76d89ff"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
     </script>
 </body>
 </html>

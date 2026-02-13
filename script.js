@@ -686,7 +686,23 @@ document.querySelectorAll('input, select').forEach(element => {
 
 // ===== REVIEW SYSTEM =====
 
-// Store reviews in localStorage
+// ===== FIREBASE SETUP (Cloud Storage) =====
+// Add Firebase to your project: https://console.firebase.google.com
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAWX_aGerrhCditAkWA6KxYmD4bjJXkoZ4",
+  authDomain: "roast-generator-11326.firebaseapp.com",
+  projectId: "roast-generator-11326",
+  storageBucket: "roast-generator-11326.firebasestorage.app",
+  messagingSenderId: "127766094574",
+  appId: "1:127766094574:web:0c5bb4f7bc23bfb76d89ff"
+};
+
+// Initialize Firebase (uncomment after adding config)
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// For now, using localStorage as fallback
 let allReviews = JSON.parse(localStorage.getItem('roastReviews')) || [];
 
 // Rating slider updates
