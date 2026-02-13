@@ -1,3 +1,5 @@
+document.addEventListener('DOMContentLoaded', function() {
+
 // Multi-language roast database - SAVAGE EDITION
 const roasts = {
     english: {
@@ -842,3 +844,5 @@ document.getElementById('backToRoastBtn').addEventListener('click', function() {
 // ===== OWNER ANALYTICS (SECRET ACCESS ONLY) =====
 
 // Secret access code - CHANGE THIS TO YOUR OWN!
+
+}); // End of DOMContentLoaded
