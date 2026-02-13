@@ -685,164 +685,64 @@ document.querySelectorAll('input, select').forEach(element => {
         this.style.transform = 'scale(1)';
     });
 });
+// ===== REVIEW SYSTEM (FIXED) =====
 
-// ===== REVIEW SYSTEM =====
+  const reviewBtn = document.getElementById("reviewBtn");
+  const reviewModal = document.getElementById("reviewModal");
+  const closeReview = document.getElementById("closeReview");
+  const reviewForm = document.getElementById("reviewForm");
 
-// ===== REVIEW SYSTEM =====
+  console.log({ reviewBtn, reviewModal, reviewForm });
 
-// Firebase already initialized in HTML
-// Use global db variable that was created in HTML
+  if (reviewBtn && reviewModal && reviewForm) {
 
-let allReviews = [];
+    // OPEN MODAL
+    reviewBtn.addEventListener("click", () => {
+      reviewModal.classList.remove("hidden");
+    });
 
-// Rating slider updates
-document.getElementById('reviewRating').addEventListener('input', function(e) {
-    document.getElementById('ratingValue').textContent = e.target.value;
-});
+    // CLOSE MODAL
+    closeReview.addEventListener("click", () => {
+      reviewModal.classList.add("hidden");
+    });
 
-document.getElementById('reviewAccuracy').addEventListener('input', function(e) {
-    document.getElementById('accuracyValue').textContent = e.target.value;
-});
+    window.addEventListener("click", e => {
+      if (e.target === reviewModal) {
+        reviewModal.classList.add("hidden");
+      }
+    });
 
-document.getElementById('reviewFunny').addEventListener('input', function(e) {
-    document.getElementById('funnyValue').textContent = e.target.value;
-});
+    // SUBMIT REVIEW
+    reviewForm.addEventListener("submit", async e => {
+      e.preventDefault();
 
-// Review button - open modal
-document.getElementById('reviewBtn').addEventListener('click', function() {
-    document.getElementById('reviewModal').classList.remove('hidden');
-});
-
-// Close modal
-document.getElementById('closeReview').addEventListener('click', function() {
-    document.getElementById('reviewModal').classList.add('hidden');
-});
-
-// Close modal when clicking outside
-window.addEventListener('click', function(event) {
-    const modal = document.getElementById('reviewModal');
-    if (event.target == modal) {
-        modal.classList.add('hidden');
-    }
-});
-
-// Submit review
-document.getElementById('reviewForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const review = {
-        name: document.getElementById('reviewerName').value || 'Anonymous',
-        brutality: parseInt(document.getElementById('reviewRating').value),
-        accuracy: parseInt(document.getElementById('reviewAccuracy').value),
-        funny: parseInt(document.getElementById('reviewFunny').value),
-        comment: document.getElementById('reviewComment').value,
+      const review = {
+        name: document.getElementById("reviewerName").value || "Anonymous",
+        brutality: +document.getElementById("reviewRating").value,
+        accuracy: +document.getElementById("reviewAccuracy").value,
+        funny: +document.getElementById("reviewFunny").value,
+        comment: document.getElementById("reviewComment").value,
         timestamp: new Date().toLocaleDateString()
-    };
-    
-    // Add to reviews
-    allReviews.push(review);
-    
-    // Save to localStorage
-    localStorage.setItem('roastReviews', JSON.stringify(allReviews));
-    
-    // Close modal
-    document.getElementById('reviewModal').classList.add('hidden');
-    
-    // Show success message
-    alert('Thank you for your review! 🙏');
-    
-    // Reset form
-    document.getElementById('reviewForm').reset();
-    document.getElementById('ratingValue').textContent = '5';
-    document.getElementById('accuracyValue').textContent = '5';
-    document.getElementById('funnyValue').textContent = '5';
-    
-    // Hide roast card
-    document.getElementById('roastCard').classList.add('hidden');
-    
-    // Go back to form
-    document.getElementById('roastForm').scrollIntoView({ behavior: 'smooth' });
-});
+      };
 
-// Calculate and display analytics
-function calculateAnalytics() {
-    if (allReviews.length === 0) {
-        return {
-            totalReviews: 0,
-            brutality: 0,
-            accuracy: 0,
-            funny: 0,
-            overall: 0,
-            reviews: []
-        };
-    }
-    
-    const brutality = (allReviews.reduce((sum, r) => sum + r.brutality, 0) / allReviews.length).toFixed(1);
-    const accuracy = (allReviews.reduce((sum, r) => sum + r.accuracy, 0) / allReviews.length).toFixed(1);
-    const funny = (allReviews.reduce((sum, r) => sum + r.funny, 0) / allReviews.length).toFixed(1);
-    const overall = ((parseFloat(brutality) + parseFloat(accuracy) + parseFloat(funny)) / 3).toFixed(1);
-    
-    return {
-        totalReviews: allReviews.length,
-        brutality,
-        accuracy,
-        funny,
-        overall,
-        reviews: allReviews
-    };
-}
+      // OPTIONAL Firebase support
+      if (window.firebase?.apps?.length) {
+        try {
+          await firebase.firestore().collection("reviews").add({
+            ...review,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (err) {
+          console.error("Firebase error:", err);
+        }
+      }
 
-// Show analytics dashboard
-function showAnalytics() {
-    const analytics = calculateAnalytics();
-    
-    // Update numbers
-    document.getElementById('totalReviews').textContent = analytics.totalReviews;
-    document.getElementById('brutalityScore').textContent = analytics.brutality;
-    document.getElementById('accuracyScore').textContent = analytics.accuracy;
-    document.getElementById('funnyScore').textContent = analytics.funny;
-    document.getElementById('overallScore').textContent = analytics.overall;
-    
-    // Display reviews
-    const reviewsList = document.getElementById('reviewsList');
-    reviewsList.innerHTML = '';
-    
-    if (analytics.reviews.length === 0) {
-        reviewsList.innerHTML = '<p style="opacity: 0.8;">No reviews yet. Be the first to review!</p>';
-    } else {
-        analytics.reviews.slice().reverse().forEach(review => {
-            const reviewDiv = document.createElement('div');
-            reviewDiv.className = 'review-item';
-            reviewDiv.innerHTML = `
-                <strong>${review.name}</strong> - ${review.timestamp}
-                <p>
-                    <span class="review-rating">Brutal: ${review.brutality}/10</span>
-                    <span class="review-rating">Accurate: ${review.accuracy}/10</span>
-                    <span class="review-rating">Funny: ${review.funny}/10</span>
-                </p>
-                ${review.comment ? `<p>"${review.comment}"</p>` : ''}
-            `;
-            reviewsList.appendChild(reviewDiv);
-        });
-    }
-    
-    // Hide roast card, show analytics
-    document.getElementById('roastCard').classList.add('hidden');
-    document.getElementById('analyticsCard').classList.remove('hidden');
-    
-    // Scroll to analytics
-    document.getElementById('analyticsCard').scrollIntoView({ behavior: 'smooth' });
-}
+      alert("Thanks for your review! 🔥");
+      reviewForm.reset();
+      reviewModal.classList.add("hidden");
+    });
 
-// Back to roasting button
-document.getElementById('backToRoastBtn').addEventListener('click', function() {
-    document.getElementById('analyticsCard').classList.add('hidden');
-    document.getElementById('roastCard').classList.remove('hidden');
-    document.getElementById('roastForm').scrollIntoView({ behavior: 'smooth' });
-});
-
-// ===== OWNER ANALYTICS (SECRET ACCESS ONLY) =====
-
-// Secret access code - CHANGE THIS TO YOUR OWN!
-
+  } else {
+    console.warn("⚠️ Review elements missing from HTML");
+  }
 }); // End of DOMContentLoaded

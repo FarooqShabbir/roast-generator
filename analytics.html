@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>👑 Roast Analytics - Owner Dashboard</title>
+
     <link rel="stylesheet" href="styles.css">
+
     <style>
         :root {
             --primary: #FF6B6B;
@@ -12,25 +14,18 @@
             --dark: #2c3e50;
             --light: #f8f9fa;
             --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.2);
-            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             min-height: 100vh;
             padding: 20px;
         }
 
         .analytics-container {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: auto;
         }
 
         .analytics-header {
@@ -39,44 +34,13 @@
             margin-bottom: 40px;
         }
 
-        .analytics-header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
         .owner-info {
             background: rgba(255, 255, 255, 0.15);
             padding: 15px 30px;
             border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            color: white;
             margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .owner-info span {
-            color: white;
-            font-size: 1rem;
-        }
-
-        .back-btn {
-            background: rgba(68, 160, 141, 0.9);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .back-btn:hover {
-            background: #44A08D;
-            transform: translateY(-2px);
+            text-align: center;
         }
 
         .stats-grid {
@@ -87,80 +51,23 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             padding: 30px;
             border-radius: 15px;
             text-align: center;
             box-shadow: var(--shadow-lg);
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-label {
-            color: var(--dark);
-            font-size: 1rem;
-            margin-bottom: 15px;
-            opacity: 0.7;
         }
 
         .stat-value {
-            color: var(--primary);
             font-size: 3rem;
+            color: var(--primary);
             font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .stat-desc {
-            color: var(--dark);
-            font-size: 0.9rem;
-            opacity: 0.6;
         }
 
         .reviews-section {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: var(--shadow-lg);
-            margin-bottom: 30px;
-        }
-
-        .reviews-section h2 {
-            color: var(--dark);
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-        }
-
-        .date-filter {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .date-filter input {
-            padding: 10px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-family: 'Poppins', sans-serif;
-            cursor: pointer;
-        }
-
-        .date-filter button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .date-filter button:hover {
-            transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
         }
 
@@ -171,266 +78,83 @@
         }
 
         .review-card {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: #f5f7fa;
             padding: 20px;
             border-radius: 12px;
             border-left: 5px solid var(--primary);
-            transition: all 0.3s ease;
-        }
-
-        .review-card:hover {
-            transform: translateX(5px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-        }
-
-        .review-name {
-            font-weight: 600;
-            color: var(--dark);
-            font-size: 1.1rem;
-        }
-
-        .review-date {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .review-ratings {
-            display: flex;
-            gap: 10px;
-            margin: 10px 0;
-            flex-wrap: wrap;
         }
 
         .rating-badge {
             background: var(--primary);
             color: white;
-            padding: 5px 12px;
+            padding: 5px 10px;
             border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .review-comment {
-            color: var(--dark);
-            font-style: italic;
-            margin-top: 10px;
-            opacity: 0.8;
-        }
-
-        .no-reviews {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-        }
-
-        .home-link {
-            display: inline-block;
-            margin-bottom: 30px;
+            font-size: 0.8rem;
+            margin-right: 5px;
         }
 
         .home-link a {
-            background: linear-gradient(135deg, #4ECDC4, #44A08D);
             color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
             text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-weight: bold;
             display: inline-block;
-        }
-
-        .home-link a:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        @media (max-width: 768px) {
-            .analytics-header h1 {
-                font-size: 1.8rem;
-            }
-
-            .owner-info {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
+            margin-bottom: 20px;
         }
     </style>
 </head>
+
 <body>
-    <div class="analytics-container">
-        <div class="home-link">
-            <a href="index.html">← Back to Roaster</a>
+
+<div class="analytics-container">
+
+    <div class="home-link">
+        <a href="index.html">← Back to Roaster</a>
+    </div>
+
+    <div class="analytics-header">
+        <h1>📊 Roast Analytics Dashboard</h1>
+        <p>Owner Private Dashboard</p>
+    </div>
+
+    <div class="owner-info">
+        👑 Welcome Owner | Total Reviews: <strong id="totalReviews">0</strong>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div>Brutality</div>
+            <div class="stat-value" id="brutalityScore">0.0</div>
         </div>
-
-        <div class="analytics-header">
-            <h1>📊 Roast Analytics Dashboard 📊</h1>
-            <p style="opacity: 0.9;">Owner's Private Analytics</p>
+        <div class="stat-card">
+            <div>Accuracy</div>
+            <div class="stat-value" id="accuracyScore">0.0</div>
         </div>
-
-        <div class="owner-info">
-            <span>👑 Welcome, Owner! | Total Reviews: <strong id="totalReviews">0</strong></span>
+        <div class="stat-card">
+            <div>Funny</div>
+            <div class="stat-value" id="funnyScore">0.0</div>
         </div>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Brutality Score</div>
-                <div class="stat-value" id="brutalityScore">0.0</div>
-                <div class="stat-desc">How savage the roasts are</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-label">Accuracy Score</div>
-                <div class="stat-value" id="accuracyScore">0.0</div>
-                <div class="stat-desc">How accurate the hits are</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-label">Humor Score</div>
-                <div class="stat-value" id="funnyScore">0.0</div>
-                <div class="stat-desc">How funny users found it</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-label">Overall Rating</div>
-                <div class="stat-value" id="overallScore">0.0</div>
-                <div class="stat-desc">Average of all metrics</div>
-            </div>
-        </div>
-
-        <div class="reviews-section">
-            <h2>📋 User Reviews & Feedback</h2>
-            
-            <div class="date-filter">
-                <input type="date" id="filterFrom" placeholder="From Date">
-                <input type="date" id="filterTo" placeholder="To Date">
-                <button onclick="filterByDate()">🔍 Filter</button>
-                <button onclick="resetFilter()" style="background: #999;">↻ Reset</button>
-            </div>
-
-            <div id="reviewsList" class="reviews-list">
-                <div class="no-reviews">No reviews yet. Check back later!</div>
-            </div>
+        <div class="stat-card">
+            <div>Overall</div>
+            <div class="stat-value" id="overallScore">0.0</div>
         </div>
     </div>
 
-    <script>
-        // Get reviews from Firebase
-        let allReviews = [];
-        let filteredReviews = [];
+    <div class="reviews-section">
+        <h2>📋 User Reviews</h2>
 
-        // Load reviews from Firebase in real-time
-        db.collection('reviews').onSnapshot(snapshot => {
-            allReviews = [];
-            snapshot.forEach(doc => {
-                if (doc.data().reviews) {
-                    allReviews = doc.data().reviews;
-                    displayAnalytics(allReviews);
-                    displayReviews(allReviews);
-                }
-            });
-        });
+        <div class="reviews-list" id="reviewsList">
+            <div class="no-reviews">No reviews yet.</div>
+        </div>
+    </div>
 
-        function displayAnalytics(reviews) {
-            if (reviews.length === 0) {
-                document.getElementById('totalReviews').textContent = '0';
-                document.getElementById('brutalityScore').textContent = '0.0';
-                document.getElementById('accuracyScore').textContent = '0.0';
-                document.getElementById('funnyScore').textContent = '0.0';
-                document.getElementById('overallScore').textContent = '0.0';
-                return;
-            }
+</div>
 
-            const brutality = (reviews.reduce((sum, r) => sum + r.brutality, 0) / reviews.length).toFixed(1);
-            const accuracy = (reviews.reduce((sum, r) => sum + r.accuracy, 0) / reviews.length).toFixed(1);
-            const funny = (reviews.reduce((sum, r) => sum + r.funny, 0) / reviews.length).toFixed(1);
-            const overall = ((parseFloat(brutality) + parseFloat(accuracy) + parseFloat(funny)) / 3).toFixed(1);
+<!-- 🔥 FIREBASE SCRIPTS (FIRST) -->
+<script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore-compat.js"></script>
 
-            document.getElementById('totalReviews').textContent = reviews.length;
-            document.getElementById('brutalityScore').textContent = brutality;
-            document.getElementById('accuracyScore').textContent = accuracy;
-            document.getElementById('funnyScore').textContent = funny;
-            document.getElementById('overallScore').textContent = overall;
-        }
-
-        function displayReviews(reviews) {
-            const reviewsList = document.getElementById('reviewsList');
-            reviewsList.innerHTML = '';
-
-            if (reviews.length === 0) {
-                reviewsList.innerHTML = '<div class="no-reviews">No reviews yet. Users\' feedback will appear here!</div>';
-                return;
-            }
-
-            // Sort by date (newest first)
-            reviews.slice().reverse().forEach(review => {
-                const reviewDiv = document.createElement('div');
-                reviewDiv.className = 'review-card';
-                reviewDiv.innerHTML = `
-                    <div class="review-header">
-                        <div class="review-name">👤 ${review.name}</div>
-                        <div class="review-date">📅 ${review.timestamp}</div>
-                    </div>
-                    <div class="review-ratings">
-                        <span class="rating-badge">🔥 Brutal: ${review.brutality}/10</span>
-                        <span class="rating-badge">🎯 Accurate: ${review.accuracy}/10</span>
-                        <span class="rating-badge">😂 Funny: ${review.funny}/10</span>
-                    </div>
-                    ${review.comment ? `<div class="review-comment">"${review.comment}"</div>` : ''}
-                `;
-                reviewsList.appendChild(reviewDiv);
-            });
-        }
-
-        function filterByDate() {
-            const fromDate = document.getElementById('filterFrom').value;
-            const toDate = document.getElementById('filterTo').value;
-
-            if (!fromDate || !toDate) {
-                alert('Please select both dates');
-                return;
-            }
-
-            const from = new Date(fromDate);
-            const to = new Date(toDate);
-
-            filteredReviews = allReviews.filter(review => {
-                const reviewDate = new Date(review.timestamp);
-                return reviewDate >= from && reviewDate <= to;
-            });
-
-            displayAnalytics(filteredReviews);
-            displayReviews(filteredReviews);
-        }
-
-        function resetFilter() {
-            document.getElementById('filterFrom').value = '';
-            document.getElementById('filterTo').value = '';
-            filteredReviews = allReviews;
-            displayAnalytics(allReviews);
-            displayReviews(allReviews);
-        }
-
-        // Load analytics when page loads - Firebase will auto-update via onSnapshot
-        
-        // Refresh NOT needed - Firebase onSnapshot handles real-time updates
-    </script>
-    <!-- Firebase Scripts (Correct Version) -->
-    <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js"></script>
-
-    <!-- Firebase Config & Init -->
-    <script>
+<!-- 🔥 FIREBASE INIT (ONCE) -->
+<script>
     const firebaseConfig = {
         apiKey: "AIzaSyAWX_aGerrhCditAkWA6KxYmD4bjJXkoZ4",
         authDomain: "roast-generator-11326.firebaseapp.com",
@@ -440,9 +164,15 @@
         appId: "1:127766094574:web:0c5bb4f7bc23bfb76d89ff"
     };
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+
     const db = firebase.firestore();
-    </script>
+</script>
+
+<!-- 🔥 ANALYTICS LOGIC -->
+<script src="analytics.js"></script>
+
 </body>
 </html>
