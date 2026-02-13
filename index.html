@@ -150,11 +150,11 @@
         </footer>
     </div>
 
-    <!-- Firebase Scripts -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
+    <!-- Firebase Scripts (Correct Version) -->
+    <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js"></script>
 
-    <!-- Firebase Config -->
+    <!-- Firebase Config & Init (BEFORE script.js) -->
     <script>
     const firebaseConfig = {
         apiKey: "AIzaSyAWX_aGerrhCditAkWA6KxYmD4bjJXkoZ4",
@@ -165,7 +165,7 @@
         appId: "1:127766094574:web:0c5bb4f7bc23bfb76d89ff"
     };
 
-    // Initialize Firebase
+    // Initialize Firebase BEFORE loading script.js
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     </script>
