@@ -20,6 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    function formatDate(ts) {
+        if (!ts || !ts.toDate) return "Just now";
+        return ts.toDate().toLocaleString();
+    }
+
+
     function renderAnalytics(reviews) {
         if (reviews.length === 0) {
             totalReviewsEl.textContent = '0';
@@ -32,7 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const avg = key =>
-            (reviews.reduce((s, r) => s + r[key], 0) / reviews.length).toFixed(1);
+            (
+                reviews.reduce((s, r) => s + (Number(r[key]) || 0), 0) / reviews.length
+            ).toFixed(1);
 
         const brutality = avg('brutality');
         const accuracy = avg('accuracy');
@@ -51,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.className = 'review-card';
             div.innerHTML = `
                 <strong>👤 ${r.name}</strong>
-                <div>📅 ${r.timestamp}</div>
+                <div>📅 ${formatDate(r.createdAt)}</div>
                 <div>
                     <span class="rating-badge">🔥 ${r.brutality}</span>
                     <span class="rating-badge">🎯 ${r.accuracy}</span>
