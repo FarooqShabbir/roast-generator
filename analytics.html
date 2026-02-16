@@ -41,6 +41,148 @@
             color: white;
             margin-bottom: 30px;
             text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: 2px solid white;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* LOGIN FORM STYLES */
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+        }
+
+        .login-container h1 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .login-container p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .login-form input {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn.loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .error-msg {
+            color: #d32f2f;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            padding: 10px;
+            background: #ffebee;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .success-msg {
+            color: #2e7d32;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .error-msg.show {
+            display: block;
+        }
+
+        .success-msg.show {
+            display: block;
+        }
+
+        .forgot-password-link {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: underline;
+            font-family: 'Poppins', sans-serif;
+            transition: color 0.2s ease;
+            padding: 0;
+        }
+
+        .forgot-password-link:hover {
+            color: #764ba2;
+        }
+
+        #login-container {
+            display: block;
+        }
+
+        #analytics-container {
+            display: none;
+        }
+
+        #analytics-container.show {
+            display: block;
         }
 
         .stats-grid {
@@ -105,7 +247,51 @@
 
 <body>
 
-<div class="analytics-container">
+<!-- LOGIN CONTAINER -->
+<div id="login-container" class="login-container">
+    <h1>🔐 Owner Login</h1>
+    <p>Enter your credentials to access analytics</p>
+    
+    <!-- Login Form -->
+    <div id="login-form-section" class="login-form-section">
+        <div class="login-form">
+            <input 
+                type="email" 
+                id="email" 
+                placeholder="Enter your email" 
+                autocomplete="email"
+            >
+            <input 
+                type="password" 
+                id="password" 
+                placeholder="Enter your password" 
+                autocomplete="current-password"
+            >
+            <button class="login-btn" id="login-btn">Login</button>
+            <div class="error-msg" id="error-msg"></div>
+            <button class="forgot-password-link" id="forgot-password-btn">Forgot Password?</button>
+        </div>
+    </div>
+
+    <!-- Forgot Password Form -->
+    <div id="reset-form-section" class="reset-form-section" style="display: none;">
+        <div class="login-form">
+            <p style="color: #666; margin-bottom: 20px;">Enter your email to receive a password reset link</p>
+            <input 
+                type="email" 
+                id="reset-email" 
+                placeholder="Enter your email" 
+                autocomplete="email"
+            >
+            <button class="login-btn" id="send-reset-btn">Send Reset Email</button>
+            <div class="error-msg" id="reset-error-msg"></div>
+            <div class="success-msg" id="reset-success-msg"></div>
+            <button class="forgot-password-link" id="back-to-login-btn">Back to Login</button>
+        </div>
+    </div>
+</div>
+
+<div class="analytics-container" style="display:none;">
 
     <div class="home-link">
         <a href="index.html">← Back to Roaster</a>
@@ -117,7 +303,8 @@
     </div>
 
     <div class="owner-info">
-        👑 Welcome Owner | Total Reviews: <strong id="totalReviews">0</strong>
+        <span>👑 Welcome Owner | Total Reviews: <strong id="totalReviews">0</strong></span>
+            <button class="logout-btn" id="logout-btn">Logout</button>
     </div>
 
     <div class="stats-grid">
@@ -152,11 +339,12 @@
 <!-- 🔥 FIREBASE SCRIPTS (FIRST) -->
 <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-auth-compat.js"></script>
 
 <!-- 🔥 FIREBASE INIT (ONCE) -->
 <script>
     const firebaseConfig = {
-        apiKey: "AIzaSyAWX_aGerrhCditAkWA6KxYmD4bjJXkoZ4",
+        apiKey: "AIzaSyCBIMaWefpnTTLrC5qGEyJomCkqqCr8T-A",
         authDomain: "roast-generator-11326.firebaseapp.com",
         projectId: "roast-generator-11326",
         storageBucket: "roast-generator-11326.firebasestorage.app",
@@ -169,6 +357,7 @@
     }
 
     const db = firebase.firestore();
+    const auth = firebase.auth();
 </script>
 
 <!-- 🔥 ANALYTICS LOGIC -->
