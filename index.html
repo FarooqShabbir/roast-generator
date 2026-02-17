@@ -143,25 +143,14 @@
         </footer>
     </div>
 
-    <!-- Firebase Scripts (Correct Version) -->
-
-    <!-- Use compat versions for browser compatibility -->
+    <script src="/api/env.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore-compat.js"></script>
-
-    <!-- Firebase Config & Init (BEFORE script.js) -->
     <script>
-    const firebaseConfig = {
-        apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-        authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-        projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-        storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-        messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-        appId: import.meta.env.VITE_FIREBASE_APP_ID,
-    };
-
-    // Initialize Firebase BEFORE loading script.js
-    firebase.initializeApp(firebaseConfig);
+    const firebaseConfig = window.__FIREBASE_CONFIG;
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
     const db = firebase.firestore();
     </script>
 
