@@ -152,12 +152,12 @@
     <!-- Firebase Config & Init (BEFORE script.js) -->
     <script>
     const firebaseConfig = {
-        apiKey: "AIzaSyCBIMaWefpnTTLrC5qGEyJomCkqqCr8T-A",
-        authDomain: "roast-generator-11326.firebaseapp.com",
-        projectId: "roast-generator-11326",
-        storageBucket: "roast-generator-11326.firebasestorage.app",
-        messagingSenderId: "127766094574",
-        appId: "1:127766094574:web:0c5bb4f7bc23bfb76d89ff"
+        apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+        authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+        projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+        storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+        appId: import.meta.env.VITE_FIREBASE_APP_ID,
     };
 
     // Initialize Firebase BEFORE loading script.js
